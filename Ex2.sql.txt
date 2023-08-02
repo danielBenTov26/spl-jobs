@@ -1,0 +1,68 @@
+create table Programmer_Work_At (
+	id integer primary key,
+	pname varchar(20) not null,
+	education varchar(50),
+	role varchar(50),
+	Team_name varchar(20) not null,
+	foreign key(Team_name) references Team_Leader
+
+	);
+
+create table Team_Leader (
+	Team_name varchar(100),
+	leader_id integer,
+	primary key(Team_name),
+	foreign key(leader_id) references Programmer_Work_At 
+								on delete set null
+								on update cascade,
+	);
+
+create table Project (
+	Project_name varchar(100),
+	client varchar(50),
+	deadline date not null,--in our company every project has deadline!
+	primary key(Project_name)
+);
+
+
+create table Develop (
+	hours real,
+	Team_name varchar(20) not null,
+	Project_name varchar(100) not null,
+	primary key(Team_name, Project_name),
+	foreign key(Project_name) references Project
+						on delete cascade
+						on update cascade,
+	foreign key(Team_name) references Team_Leader
+					on delete set null
+					on update cascade, 
+);
+
+create table Bug_report_Bug(
+	bugDate date not null,
+	description varchar(200),
+	solved integer,
+	Project_name varchar(100) not null,
+	progID integer not null,
+	primary key(bugDate, Project_name, progID),
+	foreign key(Project_name) references Project
+						on delete cascade
+						on update cascade,
+	foreign key(progID) references Programmer_Work_At
+							on delete set null
+							on update cascade,
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
